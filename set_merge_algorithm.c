@@ -128,8 +128,6 @@ Set* symDifMerge(Set* A,Set* B){
     Set* temp_b = B;
 
     do{
-        printSet(C,"C");
-        printf("A || B %d || %d\n",temp_a->data, temp_b->data);
         if(temp_a->next != NULL && temp_b->next != NULL){
         if(temp_a->data == temp_b->data){
             temp_a = temp_a->next;
@@ -151,7 +149,7 @@ Set* symDifMerge(Set* A,Set* B){
                     temp_a = temp_a->next;
                     break;
                 }
-            }while(temp_a->data > temp_b->data || temp_b->next != NULL);
+            }while(temp_a->data > temp_b->data && temp_b->next != NULL);
         }
         else if(temp_a->data < temp_b->data){
             do{
@@ -168,105 +166,140 @@ Set* symDifMerge(Set* A,Set* B){
                     temp_b = temp_b->next;
                     break;
                 }
-            }while(temp_b->data > temp_a->data || temp_a->next != NULL);
+            }while(temp_b->data > temp_a->data && temp_a->next != NULL);
         }
         }
         else if(temp_a->next != NULL && temp_b->next == NULL){
-            printf("SHIT\n");
             do{
-                printSet(C,"C");
-        printf("A || B %d || %d\n",temp_a->data, temp_b->data);
-            if(temp_a->data > temp_b->data){
-                printf("damn!@\n");
-                c_f = Append(C,c_f,temp_b->data);
-                do{
-                    c_f = Append(C,c_f,temp_a->data);
-                }while(temp_a->next != NULL);
-                c_f = Append(C,c_f,temp_a->data);
-            }
-            else if(temp_a->data == temp_b->data){
-                printf("double damn!\n");
-                temp_a = temp_a->next;
-                if(temp_a->next != NULL){
-                do{
-                    c_f = Append(C,c_f,temp_a->data);
-                    temp_a = temp_a->next;
-                }while(temp_a->next != NULL);
-                }
-                else{
-                c_f = Append(C,c_f,temp_a->data);
-                }
-            }
-            else if(temp_a->data < temp_b->data){
-                printf("trrr damn!\n");
-                do{
-                    printf("skibidi");
-                    if(temp_a->data < temp_b->data){
+                if(temp_a->data > temp_b->data){
+                    c_f = Append(C,c_f,temp_b->data);
+                    do{
                         c_f = Append(C,c_f,temp_a->data);
                         temp_a = temp_a->next;
+                    }while(temp_a->next != NULL);
+                    c_f = Append(C,c_f,temp_a->data);
+                }
+                else if(temp_a->data == temp_b->data){
+                    temp_a = temp_a->next;
+                    if(temp_a->next==NULL){
+                        c_f = Append(C,c_f,temp_a->data);
                     }
-                    else if(temp_a->data == temp_b->data){
+                    else{
+                       do{
+                        c_f = Append(C,c_f,temp_a->data);
                         temp_a = temp_a->next;
-                        do{
-                             c_f = Append(C,c_f,temp_a->data);
-                        }while(temp_a->next != NULL);
+                    }while(temp_a->next != NULL);
+                    c_f = Append(C,c_f,temp_a->data); 
                     }
-                    else if(temp_a->data > temp_b->data){
-                        break;
+                }
+                else if(temp_a->data < temp_b->data){
+                    do{
+                        c_f = Append(C,c_f,temp_a->data);
+                        temp_a = temp_a->next;
+                    }while(temp_a->data < temp_b->data && temp_a->next != NULL);
+                    if(temp_a->next == NULL){
+                        if(temp_a->data < temp_b->data){
+                            c_f = Append(C,c_f,temp_a->data);
+                            c_f = Append(C,c_f,temp_b->data);
+                        }
+                        else if(temp_a->data == temp_b->data){
+                            break;
+                        }
+                        else if(temp_a->data > temp_b->data){
+                            c_f = Append(C,c_f,temp_b->data);
+                            c_f = Append(C,c_f,temp_a->data);
+                        }
                     }
-                }while(temp_a->next != NULL);
-                c_f = Append(C,c_f,temp_a->data);
+                    else if(temp_a->next != NULL){
+                        if(temp_a->data == temp_b->data){
+                            temp_a = temp_a->next;
+                            if(temp_a->next==NULL){
+                                c_f = Append(C,c_f,temp_a->data);
+                            }
+                            else{
+                            do{
+                                c_f = Append(C,c_f,temp_a->data);
+                                temp_a = temp_a->next;
+                            }while(temp_a->next != NULL);
+                                c_f = Append(C,c_f,temp_a->data); 
+                            }
+                        }
+                        else{
+                           do{
+                                c_f = Append(C,c_f,temp_a->data);
+                                temp_a = temp_a->next;
+                            }while(temp_a->next != NULL);
+                            c_f = Append(C,c_f,temp_a->data); 
+                        }
+                    }
+                }
+            }while(temp_a->next != NULL);
             }
-        }while(temp_a->next != NULL);
-        }
         else if(temp_b->next != NULL && temp_a->next == NULL){
-            printf("DOUBLE SHIT\n");
             do{
-                printSet(C,"C");
-        printf("A || B %d || %d\n",temp_a->data, temp_b->data);
-            if(temp_b->data > temp_a->data){
-                printf("Normally here\n...");
-                c_f = Append(C,c_f,temp_a->data);
-                do{
-                    c_f = Append(C,c_f,temp_b->data);
-                    temp_b = temp_b->next;
-                }while(temp_b->next != NULL);
-                c_f = Append(C,c_f,temp_b->data);
-            }
-            else if(temp_b->data == temp_a->data){
-                printf("Shouldn't be here!\n");
-                temp_b = temp_b->next;
-                do{
-                    c_f = Append(C,c_f,temp_b->data);
-                    temp_b = temp_b->next;
-                }while(temp_b->next != NULL);
-                c_f = Append(C,c_f,temp_b->data);
-            }
-            else if(temp_b->data < temp_a->data){
-                printf("Shouldn't be here!!!!\n");
-                do{
-                    if(temp_b->data < temp_a->data){
+                if(temp_b->data > temp_a->data){
+                    c_f = Append(C,c_f,temp_a->data);
+                    do{
                         c_f = Append(C,c_f,temp_b->data);
                         temp_b = temp_b->next;
+                    }while(temp_b->next != NULL);
+                    c_f = Append(C,c_f,temp_b->data);
+                }
+                else if(temp_b->data == temp_a->data){
+                    temp_b = temp_b->next;
+                    if(temp_b->next==NULL){
+                        c_f = Append(C,c_f,temp_b->data);
                     }
-                    else if(temp_b->data == temp_a->data){
+                    else{
+                       do{
+                        c_f = Append(C,c_f,temp_b->data);
                         temp_b = temp_b->next;
-                        do{
-                             c_f = Append(C,c_f,temp_b->data);
-                        }while(temp_b->next != NULL);
+                    }while(temp_b->next != NULL);
+                    c_f = Append(C,c_f,temp_b->data); 
                     }
-                    else if(temp_b->data > temp_a->data){
-                        break;
+                }
+                else if(temp_b->data < temp_a->data){
+                    do{
+                        c_f = Append(C,c_f,temp_b->data);
+                        temp_b = temp_b->next;
+                    }while(temp_b->data < temp_a->data && temp_b->next != NULL);
+                    if(temp_b->next == NULL){
+                        if(temp_b->data < temp_a->data){
+                            c_f = Append(C,c_f,temp_b->data);
+                            c_f = Append(C,c_f,temp_a->data);
+                        }
+                        else if(temp_b->data == temp_a->data){
+                            break;
+                        }
+                        else if(temp_b->data > temp_a->data){
+                            c_f = Append(C,c_f,temp_a->data);
+                            c_f = Append(C,c_f,temp_b->data);
+                        }
                     }
-                }while(temp_b->next != NULL);
-                c_f = Append(C,c_f,temp_b->data);
-            }
-            }
-            while(temp_b->next != NULL);
-        }
-        else if(temp_a->next == NULL && temp_b->next == NULL){
-            printf("TO BE WRITTEN!!!");
-            break;
+                    else if(temp_b->next != NULL){
+                        if(temp_b->data == temp_a->data){
+                            temp_b = temp_b->next;
+                            if(temp_b->next==NULL){
+                                c_f = Append(C,c_f,temp_b->data);
+                            }
+                            else{
+                            do{
+                                c_f = Append(C,c_f,temp_b->data);
+                                temp_b = temp_b->next;
+                            }while(temp_b->next != NULL);
+                                c_f = Append(C,c_f,temp_b->data); 
+                            }
+                        }
+                        else{
+                           do{
+                                c_f = Append(C,c_f,temp_b->data);
+                                temp_b = temp_b->next;
+                            }while(temp_b->next != NULL);
+                            c_f = Append(C,c_f,temp_b->data); 
+                        }
+                    }
+                }
+            }while(temp_b->next != NULL);
         }
     }
     while(temp_a->next != NULL || temp_b->next !=NULL);
